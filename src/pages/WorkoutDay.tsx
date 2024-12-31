@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import AddExerciseModal from '@/components/AddExerciseModal';
-import { ArrowLeft, Plus, Music2 } from 'lucide-react';
+import { ArrowLeft, Plus, Music2, Trash2 } from 'lucide-react';
 
 interface Exercise {
   name: string;
@@ -29,6 +29,12 @@ const WorkoutDay = () => {
 
   const handleAddExercise = (exercise: Exercise) => {
     const updatedExercises = [...exercises, exercise];
+    setExercises(updatedExercises);
+    localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
+  };
+
+  const handleDeleteExercise = (index: number) => {
+    const updatedExercises = exercises.filter((_, i) => i !== index);
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
@@ -62,16 +68,28 @@ const WorkoutDay = () => {
       <main className="p-4 pb-24">
         {exercises.length > 0 ? (
           exercises.map((exercise, index) => (
-            <Card key={index} className="bg-[#16324f] p-4 mb-4">
-              <h3 className="text-lg font-medium capitalize">{exercise.name}</h3>
-              <p className="text-sm opacity-80">{exercise.sets} sets × {exercise.reps} reps</p>
-              <span className="inline-block mt-2 text-xs bg-[#18435a] px-2 py-1 rounded">
-                {exercise.targetMuscle}
-              </span>
+            <Card key={index} className="bg-white/10 backdrop-blur-sm p-4 mb-4 relative">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-lg font-medium capitalize text-white">{exercise.name}</h3>
+                  <p className="text-sm text-white/90">{exercise.sets} sets × {exercise.reps} reps</p>
+                  <span className="inline-block mt-2 text-xs bg-[#18435a]/80 px-2 py-1 rounded text-white/90">
+                    {exercise.targetMuscle}
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleDeleteExercise(index)}
+                  className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </Button>
+              </div>
             </Card>
           ))
         ) : (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-white/60">
             No exercises added yet. Click the + button to add exercises.
           </div>
         )}
