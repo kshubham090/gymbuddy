@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WorkoutCard from '@/components/WorkoutCard';
 import { Dumbbell } from 'lucide-react';
 
+interface WorkoutDay {
+  day: string;
+  duration?: string;
+  exercises: number;
+}
+
 const Index = () => {
   const navigate = useNavigate();
-  const [workouts] = useState([
-    { day: 'Monday', duration: '5 mins', exercises: 1 },
-    { day: 'Tuesday', duration: undefined, exercises: 0 },
-    { day: 'Wednesday', duration: undefined, exercises: 0 },
-    { day: 'Thursday', duration: undefined, exercises: 0 },
-    { day: 'Friday', duration: undefined, exercises: 0 },
-  ]);
+  const [workouts, setWorkouts] = useState<WorkoutDay[]>([]);
+
+  useEffect(() => {
+    // Load workouts from localStorage
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const savedWorkouts = days.map(day => {
+      const savedExercises = JSON.parse(localStorage.getItem(`workout_${day.toLowerCase()}`) || '[]');
+      return {
+        day,
+        duration: savedExercises.length ? `${savedExercises.length * 5} mins` : undefined,
+        exercises: savedExercises.length
+      };
+    });
+    setWorkouts(savedWorkouts);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gym-dark text-white">
-      <header className="bg-gym-medium p-4 flex items-center gap-2">
+    <div className="min-h-screen bg-[#13293d] text-white">
+      <header className="bg-[#16324f] p-4 flex items-center gap-2">
         <Dumbbell className="w-6 h-6" />
         <h1 className="text-xl font-bold">DailyGymMate</h1>
         <span className="text-sm opacity-80">Dashboard</span>
