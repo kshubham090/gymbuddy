@@ -33,7 +33,7 @@ const Index = () => {
       const savedExercises = JSON.parse(localStorage.getItem(`workout_${day.toLowerCase()}`) || '[]');
       return {
         day,
-        duration: savedExercises.length ? `${savedExercises.length * 5} mins` : undefined,
+        duration: savedExercises.length ? `${savedExercises.length * 15} mins` : undefined,
         exercises: savedExercises.length
       };
     });

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import AddExerciseModal from '@/components/AddExerciseModal';
-import { ArrowLeft, Plus, Music2, Trash2 } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import AddExerciseModal from "@/components/AddExerciseModal";
+import { ArrowLeft, Plus, Music2, Trash2, ChevronDown, ChevronUp } from "lucide-react"; // Add these imports
 
 interface Exercise {
   name: string;
   sets: number;
   reps: number;
   targetMuscle: string;
-  isChecked: boolean; // Add isChecked to track the checkbox status
+  isChecked: boolean;
 }
 
 const WorkoutDay = () => {
@@ -18,20 +18,19 @@ const WorkoutDay = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [showMusicPlayer, setShowMusicPlayer] = useState(false);
+  const [isMusicPlayerExpanded, setIsMusicPlayerExpanded] = useState(false);
 
   useEffect(() => {
     const savedExercises = localStorage.getItem(`workout_${day}`);
-    const lastCheckedDate = localStorage.getItem('lastCheckedDate');
+    const lastCheckedDate = localStorage.getItem("lastCheckedDate");
     const today = new Date().toLocaleDateString();
 
     if (savedExercises) {
       const parsedExercises: Exercise[] = JSON.parse(savedExercises);
 
-      // Reset checkbox if the date has changed
       if (lastCheckedDate !== today) {
-        parsedExercises.forEach(exercise => (exercise.isChecked = false));
-        localStorage.setItem('lastCheckedDate', today);
+        parsedExercises.forEach((exercise) => (exercise.isChecked = false));
+        localStorage.setItem("lastCheckedDate", today);
       }
 
       setExercises(parsedExercises);
@@ -61,10 +60,10 @@ const WorkoutDay = () => {
   return (
     <div className="min-h-screen bg-[#13293d] text-white">
       <header className="bg-[#16324f] p-4 flex items-center gap-4">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           size="icon"
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="text-white hover:bg-[#18435a]"
         >
           <ArrowLeft className="w-6 h-6" />
@@ -73,7 +72,7 @@ const WorkoutDay = () => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setShowMusicPlayer(!showMusicPlayer)}
+          onClick={() => setIsMusicPlayerExpanded(!isMusicPlayerExpanded)}
           className="ml-auto text-white hover:bg-[#18435a]"
         >
           <Music2 className="w-6 h-6" />
@@ -83,11 +82,18 @@ const WorkoutDay = () => {
       <main className="p-4 pb-24">
         {exercises.length > 0 ? (
           exercises.map((exercise, index) => (
-            <Card key={index} className="bg-white/10 backdrop-blur-sm p-4 mb-4 relative">
+            <Card
+              key={index}
+              className="bg-white/10 backdrop-blur-sm p-4 mb-4 relative"
+            >
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-medium capitalize text-white">{exercise.name}</h3>
-                  <p className="text-sm text-white/90">{exercise.sets} sets × {exercise.reps} reps</p>
+                  <h3 className="text-lg font-medium capitalize text-white">
+                    {exercise.name}
+                  </h3>
+                  <p className="text-sm text-white/90">
+                    {exercise.sets} sets × {exercise.reps} reps
+                  </p>
                   <span className="inline-block mt-2 text-xs bg-[#18435a]/80 px-2 py-1 rounded text-white/90">
                     {exercise.targetMuscle}
                   </span>
@@ -125,20 +131,30 @@ const WorkoutDay = () => {
         </Button>
       </main>
 
-      {showMusicPlayer && (
-        <div className="fixed bottom-0 left-0 right-0 bg-[#16324f] p-4 border-t border-[#18435a]">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm">Currently playing on: YouTube</span>
-          </div>
-          <iframe
-            className="w-full h-20 rounded"
-            src="https://www.youtube.com/embed/6SFfS9QMloU?autohide=1&showinfo=0&controls=1&modestbranding=0&rel=0&autoplay=0&mute=0"
-            frameBorder="0"
-            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-[#16324f] transition-transform ${
+          isMusicPlayerExpanded ? "h-3/5" : "h-14"
+        }`}
+      >
+        <div
+          className="flex justify-between items-center p-2 cursor-pointer"
+          onClick={() => setIsMusicPlayerExpanded(!isMusicPlayerExpanded)}
+        >
+          <span className="text-white "> YouTube</span>
+          {/* Use icons instead of text */}
+          <span className="text-white">
+            {isMusicPlayerExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+          </span>
         </div>
-      )}
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/videoseries?si=mesmokfisakvWsgg&list=PL9PwPs7-UT5xfmBfQ3UIbgDv7WWPvdCTy"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className={`w-full ${isMusicPlayerExpanded ? "h-[calc(100%-3rem)]" : "hidden"}`}
+        />
+      </div>
 
       <AddExerciseModal
         isOpen={isModalOpen}
