@@ -9,8 +9,7 @@ interface Exercise {
   name: string;
   sets: number;
   reps: number;
-  category: string;
-  muscles: string[];
+  targetMuscle: string;
 }
 
 const WorkoutDay = () => {
@@ -61,16 +60,9 @@ const WorkoutDay = () => {
             <Card key={index} className="bg-[#16324f] p-4 mb-4">
               <h3 className="text-lg font-medium capitalize">{exercise.name}</h3>
               <p className="text-sm opacity-80">{exercise.sets} sets × {exercise.reps} reps</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {exercise.muscles.map((muscle, i) => (
-                  <span 
-                    key={i}
-                    className="text-xs bg-[#18435a] px-2 py-1 rounded"
-                  >
-                    {muscle}
-                  </span>
-                ))}
-              </div>
+              <span className="inline-block mt-2 text-xs bg-[#18435a] px-2 py-1 rounded">
+                {exercise.targetMuscle}
+              </span>
             </Card>
           ))
         ) : (
