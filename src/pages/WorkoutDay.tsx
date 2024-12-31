@@ -18,6 +18,7 @@ const WorkoutDay = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
+  const [musicService, setMusicService] = useState<'spotify' | 'youtube'>('spotify');
 
   useEffect(() => {
     const savedExercises = localStorage.getItem(`workout_${day}`);
@@ -30,6 +31,10 @@ const WorkoutDay = () => {
     const updatedExercises = [...exercises, exercise];
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
+  };
+
+  const toggleMusicService = () => {
+    setMusicService(prev => prev === 'spotify' ? 'youtube' : 'spotify');
   };
 
   return (
@@ -81,11 +86,32 @@ const WorkoutDay = () => {
 
       {showMusicPlayer && (
         <div className="fixed bottom-0 left-0 right-0 bg-[#16324f] p-4 border-t border-[#18435a]">
-          <iframe
-            className="w-full h-16 rounded"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh"
-            allow="encrypted-media"
-          />
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm">Currently playing on: {musicService}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleMusicService}
+              className="text-white hover:bg-[#18435a]"
+            >
+              Switch to {musicService === 'spotify' ? 'YouTube Music' : 'Spotify'}
+            </Button>
+          </div>
+          {musicService === 'spotify' ? (
+            <iframe
+              className="w-full h-20 rounded"
+              src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh?utm_source=generator&theme=0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          ) : (
+            <iframe
+              className="w-full h-20 rounded"
+              src="https://music.youtube.com/embed/playlist?list=RDCLAK5uy_kmPRjHDECIcuVwnKsx2Ng7fyNgFKWNJFs"
+              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          )}
         </div>
       )}
 
