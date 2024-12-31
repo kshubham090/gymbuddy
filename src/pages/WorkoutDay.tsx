@@ -10,6 +10,7 @@ interface Exercise {
   sets: number;
   reps: number;
   targetMuscle: string;
+  isChecked: boolean; // Add isChecked to track the checkbox status
 }
 
 const WorkoutDay = () => {
@@ -20,21 +21,39 @@ const WorkoutDay = () => {
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
 
   useEffect(() => {
-    console.log('Component mounted');
     const savedExercises = localStorage.getItem(`workout_${day}`);
+    const lastCheckedDate = localStorage.getItem('lastCheckedDate');
+    const today = new Date().toLocaleDateString();
+
     if (savedExercises) {
-      setExercises(JSON.parse(savedExercises));
+      const parsedExercises: Exercise[] = JSON.parse(savedExercises);
+
+      // Reset checkbox if the date has changed
+      if (lastCheckedDate !== today) {
+        parsedExercises.forEach(exercise => (exercise.isChecked = false));
+        localStorage.setItem('lastCheckedDate', today);
+      }
+
+      setExercises(parsedExercises);
     }
   }, [day]);
 
   const handleAddExercise = (exercise: Exercise) => {
-    const updatedExercises = [...exercises, exercise];
+    const updatedExercises = [...exercises, { ...exercise, isChecked: false }];
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
 
   const handleDeleteExercise = (index: number) => {
     const updatedExercises = exercises.filter((_, i) => i !== index);
+    setExercises(updatedExercises);
+    localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
+  };
+
+  const handleCheckboxChange = (index: number) => {
+    const updatedExercises = exercises.map((exercise, i) =>
+      i === index ? { ...exercise, isChecked: !exercise.isChecked } : exercise
+    );
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
@@ -73,14 +92,22 @@ const WorkoutDay = () => {
                     {exercise.targetMuscle}
                   </span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDeleteExercise(index)}
-                  className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={exercise.isChecked}
+                    onChange={() => handleCheckboxChange(index)}
+                    className="text-white"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDeleteExercise(index)}
+                    className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </Button>
+                </div>
               </div>
             </Card>
           ))
@@ -101,11 +128,12 @@ const WorkoutDay = () => {
       {showMusicPlayer && (
         <div className="fixed bottom-0 left-0 right-0 bg-[#16324f] p-4 border-t border-[#18435a]">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm">Currently playing on: YouTube Music</span>
+            <span className="text-sm">Currently playing on: YouTube</span>
           </div>
           <iframe
             className="w-full h-20 rounded"
-            src="https://music.youtube.com/embed/playlist?list=RDCLAK5uy_kmPRjHDECIcuVwnKsx2Ng7fyNgFKWNJFs"
+            src="https://www.youtube.com/embed/6SFfS9QMloU?autohide=1&showinfo=0&controls=0&modestbranding=0&rel=0&autoplay=0&mute=0"
+            frameBorder="0"
             allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
           />
