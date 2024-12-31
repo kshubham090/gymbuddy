@@ -16,7 +16,7 @@ interface AddExerciseModalProps {
 }
 
 const muscleGroups = [
-  'Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 'Core'
+  'Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 'Legs', 'Abs'
 ];
 
 const AddExerciseModal = ({ isOpen, onClose, onSave }: AddExerciseModalProps) => {

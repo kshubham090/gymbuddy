@@ -28,7 +28,7 @@ const Index = () => {
     document.head.appendChild(style);
 
     // Load workouts from localStorage
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' , 'Saturday'];
     const savedWorkouts = days.map(day => {
       const savedExercises = JSON.parse(localStorage.getItem(`workout_${day.toLowerCase()}`) || '[]');
       return {
@@ -48,8 +48,8 @@ const Index = () => {
     <div className="min-h-screen bg-[#13293d] text-white">
       <header className="bg-[#16324f] p-4 flex items-center gap-2">
         <Dumbbell className="w-6 h-6" />
-        <h1 className="text-xl font-bold">DailyGymMate</h1>
-        <span className="text-sm opacity-80">Dashboard</span>
+        <h1 className="text-xl font-bold">Gym buddy</h1>
+        <span className="text-sm opacity-80 pl-10">Dashboard</span>
       </header>
       
       <main className="p-4">
