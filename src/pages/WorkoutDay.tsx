@@ -132,7 +132,7 @@ const WorkoutDay = () => {
           </div>
           <iframe
             className="w-full h-20 rounded"
-            src="https://www.youtube.com/embed/6SFfS9QMloU?autohide=1&showinfo=0&controls=0&modestbranding=0&rel=0&autoplay=0&mute=0"
+            src="https://www.youtube.com/embed/6SFfS9QMloU?autohide=1&showinfo=0&controls=1&modestbranding=0&rel=0&autoplay=0&mute=0"
             frameBorder="0"
             allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
