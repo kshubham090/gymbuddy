@@ -14,6 +14,19 @@ const Index = () => {
   const [workouts, setWorkouts] = useState<WorkoutDay[]>([]);
 
   useEffect(() => {
+    // Hide scrollbar but keep scrolling
+    const style = document.createElement('style');
+    style.innerHTML = `
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      body {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    `;
+    document.head.appendChild(style);
+
     // Load workouts from localStorage
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     const savedWorkouts = days.map(day => {
@@ -25,6 +38,10 @@ const Index = () => {
       };
     });
     setWorkouts(savedWorkouts);
+
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
 
   return (
