@@ -41,7 +41,10 @@ const ExerciseOptionsMenu = ({ exerciseId, onDelete, onSaveNote, currentNote }: 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0 text-gym-text hover:bg-gym-accent/20">
+        <Button 
+          variant="ghost" 
+          className="h-8 w-8 p-0 text-gym-text hover:bg-gym-accent/20 absolute top-2 right-2"
+        >
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>

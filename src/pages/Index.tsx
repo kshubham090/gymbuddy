@@ -29,7 +29,8 @@ const Index = () => {
     <div className="min-h-screen bg-black text-gym-text">
       <header className="bg-black/50 backdrop-blur-sm p-6 flex items-center gap-4 border-b border-gym-accent/20">
         <div className="flex-1">
-          <h1 className="text-3xl font-bold">Your Daily Gym Companion</h1>
+          <h1 className="text-3xl font-bold mb-1">GYM-BUDDY</h1>
+          <p className="text-sm text-gym-accent">Your Daily Gym Companion</p>
         </div>
       </header>
       
