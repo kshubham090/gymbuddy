@@ -13,7 +13,14 @@ interface Exercise {
   targetMuscle: string;
   isChecked: boolean;
   note?: string;
-  pr?: string;
+  pr?: {
+    value: string;
+    date: string;
+    history?: Array<{
+      value: string;
+      date: string;
+    }>;
+  };
 }
 
 const WorkoutDay = () => {
@@ -44,8 +51,6 @@ const WorkoutDay = () => {
       ...exercise,
       id: crypto.randomUUID(),
       isChecked: false,
-      note: '',
-      pr: ''
     };
     const updatedExercises = [...exercises, newExercise];
     setExercises(updatedExercises);
@@ -66,10 +71,35 @@ const WorkoutDay = () => {
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
 
-  const handleSavePR = (id: string, pr: string) => {
-    const updatedExercises = exercises.map((exercise) =>
-      exercise.id === id ? { ...exercise, pr } : exercise
-    );
+  const handleSavePR = (id: string, prValue: string) => {
+    const updatedExercises = exercises.map((exercise) => {
+      if (exercise.id === id) {
+        const currentPR = exercise.pr;
+        let newHistory = currentPR?.history || [];
+        
+        // If there's a current PR, add it to history
+        if (currentPR) {
+          newHistory = [...newHistory, { value: currentPR.value, date: currentPR.date }];
+        }
+
+        // Sort history to find the highest PR
+        const allPRs = [...newHistory, { value: prValue, date: new Date().toISOString() }];
+        const highestPR = allPRs.reduce((max, current) => 
+          Number(current.value) > Number(max.value) ? current : max
+        , allPRs[0]);
+
+        return {
+          ...exercise,
+          pr: {
+            value: highestPR.value,
+            date: highestPR.date,
+            history: newHistory.slice(-5), // Keep only last 5 PRs in history
+          },
+        };
+      }
+      return exercise;
+    });
+    
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
