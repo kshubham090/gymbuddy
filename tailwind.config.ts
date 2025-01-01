@@ -29,6 +29,8 @@ export default {
           dark: "#13293d",
           medium: "#16324f",
           light: "#18435a",
+          accent: "#40E0D0",
+          text: "#E0FFFF",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

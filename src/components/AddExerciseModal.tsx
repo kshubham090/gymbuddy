@@ -16,7 +16,7 @@ interface AddExerciseModalProps {
 }
 
 const muscleGroups = [
-  'Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 'Legs', 'Abs'
+  'Upper Body', 'Core', 'Lower Body', 'Full Body', 'Cardio', 'Flexibility'
 ];
 
 const AddExerciseModal = ({ isOpen, onClose, onSave }: AddExerciseModalProps) => {
@@ -52,14 +52,14 @@ const AddExerciseModal = ({ isOpen, onClose, onSave }: AddExerciseModalProps) =>
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#16324f] text-white border-[#18435a]">
+      <DialogContent className="bg-black text-gym-text border-gym-accent/20">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            {step === 'muscle' ? 'Select Target Muscle' : 'Add Exercise Details'}
+            {step === 'muscle' ? 'Select Target Area' : 'Add Exercise Details'}
           </DialogTitle>
-          <DialogDescription className="text-gray-300">
+          <DialogDescription className="text-gym-accent">
             {step === 'muscle' 
-              ? 'Choose the primary muscle group you want to target'
+              ? 'Choose the primary area you want to target'
               : `Adding exercise for ${selectedMuscle}`
             }
           </DialogDescription>
@@ -71,10 +71,10 @@ const AddExerciseModal = ({ isOpen, onClose, onSave }: AddExerciseModalProps) =>
               <Button
                 key={muscle}
                 onClick={() => handleMuscleSelect(muscle)}
-                className="bg-[#13293d] hover:bg-[#18435a] text-white flex items-center justify-between"
+                className="bg-black/40 hover:bg-black/60 text-gym-text border border-gym-accent/20 flex items-center justify-between group"
               >
                 {muscle}
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 text-gym-accent opacity-0 group-hover:opacity-100 transition-opacity" />
               </Button>
             ))}
           </div>
@@ -84,35 +84,35 @@ const AddExerciseModal = ({ isOpen, onClose, onSave }: AddExerciseModalProps) =>
               placeholder="Exercise Name"
               value={exerciseName}
               onChange={(e) => setExerciseName(e.target.value)}
-              className="bg-[#13293d] text-white border-[#18435a]"
+              className="bg-black/40 text-gym-text border-gym-accent/20"
             />
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm">Sets</label>
+                <label className="text-sm text-gym-accent">Sets</label>
                 <Input
                   type="number"
                   value={sets}
                   onChange={(e) => setSets(e.target.value)}
-                  className="bg-[#13293d] text-white border-[#18435a]"
+                  className="bg-black/40 text-gym-text border-gym-accent/20"
                 />
               </div>
               <div>
-                <label className="text-sm">Reps</label>
+                <label className="text-sm text-gym-accent">Reps</label>
                 <Input
                   type="number"
                   value={reps}
                   onChange={(e) => setReps(e.target.value)}
-                  className="bg-[#13293d] text-white border-[#18435a]"
+                  className="bg-black/40 text-gym-text border-gym-accent/20"
                 />
               </div>
             </div>
             <div className="flex gap-2">
-              <Button onClick={handleBack} className="bg-[#13293d] hover:bg-[#18435a]">
+              <Button onClick={handleBack} className="bg-black/40 hover:bg-black/60 text-gym-text border border-gym-accent/20">
                 Back
               </Button>
               <Button 
                 onClick={handleSave} 
-                className="flex-1 bg-[#18435a] hover:bg-[#13293d]"
+                className="flex-1 bg-gym-accent text-black hover:bg-gym-accent/90"
                 disabled={!exerciseName}
               >
                 Add Exercise

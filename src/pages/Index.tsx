@@ -14,21 +14,7 @@ const Index = () => {
   const [workouts, setWorkouts] = useState<WorkoutDay[]>([]);
 
   useEffect(() => {
-    // Hide scrollbar but keep scrolling
-    const style = document.createElement('style');
-    style.innerHTML = `
-      ::-webkit-scrollbar {
-        display: none;
-      }
-      body {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Load workouts from localStorage
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' , 'Saturday'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const savedWorkouts = days.map(day => {
       const savedExercises = JSON.parse(localStorage.getItem(`workout_${day.toLowerCase()}`) || '[]');
       return {
@@ -38,32 +24,36 @@ const Index = () => {
       };
     });
     setWorkouts(savedWorkouts);
-
-    return () => {
-      document.head.removeChild(style);
-    };
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#13293d] text-white">
-      <header className="bg-[#16324f] p-4 flex items-center gap-2">
-        <Dumbbell className="w-6 h-6" />
-        <h1 className="text-xl font-bold">Gym buddy</h1>
-        <span className="text-sm opacity-80 pl-10">Dashboard</span>
+    <div className="min-h-screen bg-black text-gym-text">
+      <header className="bg-black/50 backdrop-blur-sm p-6 flex items-center gap-4 border-b border-gym-accent/20">
+        <div className="flex-1">
+          <h2 className="text-sm uppercase tracking-wider text-gym-accent mb-1">YOUR FITNESS COACH</h2>
+          <h1 className="text-3xl font-bold">Welcome to Your Ultimate Training Companion</h1>
+        </div>
       </header>
       
-      <main className="p-4">
-        <h2 className="text-2xl font-bold mb-6">Weekly Workout Plan</h2>
-        <div className="grid gap-4">
-          {workouts.map((workout) => (
-            <WorkoutCard
-              key={workout.day}
-              day={workout.day}
-              duration={workout.duration}
-              exerciseCount={workout.exercises}
-              onClick={() => navigate(`/workout/${workout.day.toLowerCase()}`)}
-            />
-          ))}
+      <main className="p-6 max-w-2xl mx-auto">
+        <div className="grid gap-6">
+          <div className="bg-gym-accent/10 rounded-2xl p-6 mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Training Plan</h2>
+              <span className="text-gym-accent">TODAY</span>
+            </div>
+            <div className="grid gap-4">
+              {workouts.map((workout) => (
+                <WorkoutCard
+                  key={workout.day}
+                  day={workout.day}
+                  duration={workout.duration}
+                  exerciseCount={workout.exercises}
+                  onClick={() => navigate(`/workout/${workout.day.toLowerCase()}`)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </main>
     </div>
