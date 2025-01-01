@@ -113,7 +113,7 @@ const WorkoutDay = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black/50 text-gym-text">
+    <div className="min-h-screen bg-black text-gym-text">
       <header className="bg-black backdrop-blur-sm p-4 flex items-center gap-4 border-b border-gym-accent/20 sticky top-0 z-10">
         <Button
           variant="ghost"
@@ -144,7 +144,7 @@ const WorkoutDay = () => {
         </div>
       </header>
 
-      <main className="p-4 pb-200 max-w-2xl mx-auto">
+      <main className="p-4 pb-96 max-w-2xl mx-auto">
         {exercises.length > 0 ? (
           exercises.map((exercise) => (
             <ExerciseCard
