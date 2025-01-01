@@ -29,7 +29,6 @@ const Index = () => {
     <div className="min-h-screen bg-black text-gym-text">
       <header className="bg-black/50 backdrop-blur-sm p-6 flex items-center gap-4 border-b border-gym-accent/20">
         <div className="flex-1">
-          <h2 className="text-sm uppercase tracking-wider text-gym-accent mb-1">GYM-BUDDY</h2>
           <h1 className="text-3xl font-bold">Your Daily Gym Companion</h1>
         </div>
       </header>
@@ -39,7 +38,6 @@ const Index = () => {
           <div className="bg-gym-accent/10 rounded-2xl p-6 mb-8">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Training Plan</h2>
-              <span className="text-gym-accent">TODAY</span>
             </div>
             <div className="grid gap-4">
               {workouts.map((workout) => (

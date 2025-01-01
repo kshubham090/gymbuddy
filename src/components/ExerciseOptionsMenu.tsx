@@ -41,32 +41,32 @@ const ExerciseOptionsMenu = ({ exerciseId, onDelete, onSaveNote, currentNote }: 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
+        <Button variant="ghost" className="h-8 w-8 p-0 text-gym-text hover:bg-gym-accent/20">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="bg-gym-medium border-gym-accent/20">
         <Dialog open={isNoteDialogOpen} onOpenChange={setIsNoteDialogOpen}>
           <DialogTrigger asChild>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-gym-text">
               <StickyNote className="mr-2 h-4 w-4" />
               Add Note
             </DropdownMenuItem>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="bg-gym-medium border-gym-accent/20">
             <DialogHeader>
-              <DialogTitle>Add a note to your exercise</DialogTitle>
+              <DialogTitle className="text-gym-text">Add a note to your exercise</DialogTitle>
             </DialogHeader>
             <Textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Write your note here..."
-              className="min-h-[100px]"
+              className="min-h-[100px] bg-gym-dark text-gym-text"
             />
-            <Button onClick={handleSaveNote}>Save Note</Button>
+            <Button onClick={handleSaveNote} className="bg-gym-accent text-gym-dark hover:bg-gym-accent/90">Save Note</Button>
           </DialogContent>
         </Dialog>
-        <DropdownMenuItem className="text-red-600" onClick={onDelete}>
+        <DropdownMenuItem className="text-red-400 hover:text-red-300" onClick={onDelete}>
           <Trash2 className="mr-2 h-4 w-4" />
           Delete Exercise
         </DropdownMenuItem>
