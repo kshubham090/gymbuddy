@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import AddExerciseModal from "@/components/AddExerciseModal";
-import { ArrowLeft, Plus, Music2, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import ExerciseCard from "@/components/ExerciseCard";
+import { ArrowLeft, Plus, Music2, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Exercise {
+  id: string;
   name: string;
   sets: number;
   reps: number;
   targetMuscle: string;
   isChecked: boolean;
+  note?: string;
+  pr?: string;
 }
 
 const WorkoutDay = () => {
@@ -28,31 +31,52 @@ const WorkoutDay = () => {
 
     if (savedExercises) {
       const parsedExercises: Exercise[] = JSON.parse(savedExercises);
-
       if (lastCheckedDate !== today) {
         parsedExercises.forEach((exercise) => (exercise.isChecked = false));
         localStorage.setItem("lastCheckedDate", today);
       }
-
       setExercises(parsedExercises);
     }
   }, [day]);
 
-  const handleAddExercise = (exercise: Exercise) => {
-    const updatedExercises = [...exercises, { ...exercise, isChecked: false }];
+  const handleAddExercise = (exercise: Omit<Exercise, 'id' | 'isChecked' | 'note' | 'pr'>) => {
+    const newExercise = {
+      ...exercise,
+      id: crypto.randomUUID(),
+      isChecked: false,
+      note: '',
+      pr: ''
+    };
+    const updatedExercises = [...exercises, newExercise];
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
 
-  const handleDeleteExercise = (index: number) => {
-    const updatedExercises = exercises.filter((_, i) => i !== index);
+  const handleDeleteExercise = (id: string) => {
+    const updatedExercises = exercises.filter((exercise) => exercise.id !== id);
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
   };
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedExercises = exercises.map((exercise, i) =>
-      i === index ? { ...exercise, isChecked: !exercise.isChecked } : exercise
+  const handleSaveNote = (id: string, note: string) => {
+    const updatedExercises = exercises.map((exercise) =>
+      exercise.id === id ? { ...exercise, note } : exercise
+    );
+    setExercises(updatedExercises);
+    localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
+  };
+
+  const handleSavePR = (id: string, pr: string) => {
+    const updatedExercises = exercises.map((exercise) =>
+      exercise.id === id ? { ...exercise, pr } : exercise
+    );
+    setExercises(updatedExercises);
+    localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
+  };
+
+  const handleCheckboxChange = (id: string) => {
+    const updatedExercises = exercises.map((exercise) =>
+      exercise.id === id ? { ...exercise, isChecked: !exercise.isChecked } : exercise
     );
     setExercises(updatedExercises);
     localStorage.setItem(`workout_${day}`, JSON.stringify(updatedExercises));
@@ -92,37 +116,15 @@ const WorkoutDay = () => {
 
       <main className="p-4 pb-24 max-w-2xl mx-auto">
         {exercises.length > 0 ? (
-          exercises.map((exercise, index) => (
-            <Card
-              key={index}
-              className="bg-black/40 backdrop-blur-sm p-4 mb-4 relative border border-gym-accent/20 rounded-xl"
-            >
-              <div className="flex justify-between items-start">
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium capitalize text-gym-text">{exercise.name}</h3>
-                  <p className="text-sm text-gym-accent">{exercise.sets} sets × {exercise.reps} reps</p>
-                  <span className="inline-block mt-2 text-xs bg-gym-accent/20 px-2 py-1 rounded-full text-gym-accent">
-                    {exercise.targetMuscle}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={exercise.isChecked}
-                    onChange={() => handleCheckboxChange(index)}
-                    className="text-gym-accent rounded border-gym-accent/20"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDeleteExercise(index)}
-                    className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </Button>
-                </div>
-              </div>
-            </Card>
+          exercises.map((exercise) => (
+            <ExerciseCard
+              key={exercise.id}
+              {...exercise}
+              onCheckboxChange={handleCheckboxChange}
+              onDelete={handleDeleteExercise}
+              onSaveNote={handleSaveNote}
+              onSavePR={handleSavePR}
+            />
           ))
         ) : (
           <div className="text-center py-8 text-gym-accent/60">

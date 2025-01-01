@@ -16,7 +16,7 @@ interface AddExerciseModalProps {
 }
 
 const muscleGroups = [
-  'Upper Body', 'Core', 'Lower Body', 'Full Body', 'Cardio', 'Flexibility'
+  'Chest', 'Back', 'Legs', 'Biceps', 'Triceps', 'Forearms', 'Shoulders', 'Abs', 'Rest' ,'Mix'
 ];
 
 const AddExerciseModal = ({ isOpen, onClose, onSave }: AddExerciseModalProps) => {
