@@ -114,7 +114,7 @@ const WorkoutDay = () => {
 
   return (
     <div className="min-h-screen bg-black text-gym-text">
-      <header className="bg-black/50 backdrop-blur-sm p-4 flex items-center gap-4 border-b border-gym-accent/20 sticky top-0 z-10">
+      <header className="bg-black backdrop-blur-sm p-4 flex items-center gap-4 border-b border-gym-accent/20 sticky top-0 z-10">
         <Button
           variant="ghost"
           size="icon"
