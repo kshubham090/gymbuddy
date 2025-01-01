@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WorkoutCard from '@/components/WorkoutCard';
-import { Dumbbell } from 'lucide-react';
 
 interface WorkoutDay {
   day: string;
@@ -30,8 +29,8 @@ const Index = () => {
     <div className="min-h-screen bg-black text-gym-text">
       <header className="bg-black/50 backdrop-blur-sm p-6 flex items-center gap-4 border-b border-gym-accent/20">
         <div className="flex-1">
-          <h2 className="text-sm uppercase tracking-wider text-gym-accent mb-1">YOUR FITNESS COACH</h2>
-          <h1 className="text-3xl font-bold">Welcome to Your Ultimate Training Companion</h1>
+          <h2 className="text-sm uppercase tracking-wider text-gym-accent mb-1">GYM-BUDDY</h2>
+          <h1 className="text-3xl font-bold">Your Daily Gym Companion</h1>
         </div>
       </header>
       
