@@ -43,15 +43,15 @@ const ExerciseOptionsMenu = ({ exerciseId, onDelete, onSaveNote, currentNote }: 
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="h-8 w-8 p-0 text-gym-text hover:bg-gym-accent/20 absolute top-2 right-2"
+          className="h-8 w-8 p-0 text-gym-text hover:bg-gym-accent/20 absolute top-2 right-2 rounded-full"
         >
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-gym-medium border-gym-accent/20">
+      <DropdownMenuContent align="end" className="bg-white border-0 shadow-lg rounded-md min-w-[120px]">
         <Dialog open={isNoteDialogOpen} onOpenChange={setIsNoteDialogOpen}>
           <DialogTrigger asChild>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-gym-text">
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-700">
               <StickyNote className="mr-2 h-4 w-4" />
               Add Note
             </DropdownMenuItem>
@@ -69,9 +69,9 @@ const ExerciseOptionsMenu = ({ exerciseId, onDelete, onSaveNote, currentNote }: 
             <Button onClick={handleSaveNote} className="bg-gym-accent text-gym-dark hover:bg-gym-accent/90">Save Note</Button>
           </DialogContent>
         </Dialog>
-        <DropdownMenuItem className="text-red-400 hover:text-red-300" onClick={onDelete}>
+        <DropdownMenuItem className="text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-700" onClick={onDelete}>
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete Exercise
+          Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
