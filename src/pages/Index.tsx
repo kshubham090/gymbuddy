@@ -13,7 +13,7 @@ const Index = () => {
   const [workouts, setWorkouts] = useState<WorkoutDay[]>([]);
 
   useEffect(() => {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' , 'Sunday'];
     const savedWorkouts = days.map(day => {
       const savedExercises = JSON.parse(localStorage.getItem(`workout_${day.toLowerCase()}`) || '[]');
       return {
