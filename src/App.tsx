@@ -14,11 +14,12 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <Analytics />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/workout/:day" element={<WorkoutDay />} />
-          <Analytics />
+          
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
