@@ -171,40 +171,47 @@ const WorkoutDay = () => {
       </main>
 
       <div
-        className={`fixed bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm border-t border-gym-accent/20 transition-all duration-300 ${
-          isMusicPlayerExpanded ? "h-3/5" : "h-14"
-        }`}
-      >
-        <div
-          className="flex justify-between items-center p-4 cursor-pointer"
-          onClick={() => setIsMusicPlayerExpanded(!isMusicPlayerExpanded)}
-        >
-          <span className="text-gym-accent">{musicService === 'youtube' ? 'YouTube Music' : 'Spotify'}</span>
-          <span className="text-gym-accent">
-            {isMusicPlayerExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
-          </span>
-        </div>
-        {isMusicPlayerExpanded && (
-          musicService === 'youtube' ? (
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/videoseries?si=mesmokfisakvWsgg&list=PL9PwPs7-UT5xfmBfQ3UIbgDv7WWPvdCTy"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="w-full h-[calc(100%-3rem)]"
-            />
-          ) : (
-            <iframe
-              src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh?utm_source=generator"
-              frameBorder="0"
-              allowFullScreen
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              className="w-full h-[calc(100%-3rem)]"
-            />
-          )
-        )}
-      </div>
+  className={`fixed bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm border-t border-gym-accent/20 transition-all duration-300 ${
+    isMusicPlayerExpanded ? "h-3/5" : "h-14"
+  }`}
+>
+  <div
+    className="flex justify-between items-center p-4 cursor-pointer"
+    onClick={() => setIsMusicPlayerExpanded(!isMusicPlayerExpanded)}
+  >
+    <span className="text-gym-accent">{musicService === 'youtube' ? 'YouTube Music' : 'Spotify'}</span>
+    <span className="text-gym-accent">
+      {isMusicPlayerExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+    </span>
+  </div>
+
+  {/* Always render the iframe, and control its visibility */}
+  <div
+    className={`transition-all duration-300 ${
+      isMusicPlayerExpanded ? "opacity-100 visible h-[calc(100%-3rem)]" : "opacity-0 invisible h-0"
+    }`}
+  >
+    {musicService === 'youtube' ? (
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/videoseries?si=mesmokfisakvWsgg&list=PL9PwPs7-UT5xfmBfQ3UIbgDv7WWPvdCTy"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+        className="w-full h-full"
+      />
+    ) : (
+      <iframe
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh?utm_source=generator"
+        frameBorder="0"
+        allowFullScreen
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        className="w-full h-full"
+      />
+    )}
+  </div>
+</div>
+
 
       <AddExerciseModal
         isOpen={isModalOpen}
